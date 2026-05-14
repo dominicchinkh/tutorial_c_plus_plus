@@ -1,17 +1,20 @@
 #include <iostream>
-#include "src/chapter1/IntCell.h"
+#include <vector>
+// #include "src/chapter1/IntCell.h"
 // #include "src/chapter1/Recursion.h"
+// #include "src/chapter1/ClassTemplate.h"
+#include "src/chapter1/FunctionObject.h"
+// #include "src/chapter1/FunctionTemplate.h"
+// #include "src/chapter1/Square.h"
 
 using namespace std;
 
 int main(int argc, char *argv[]) 
 {
-    IntCell* m = new IntCell{ 0 };
+    vector<string> arr = {"Zebra", "alligator", "crocodile"};
 
-    m->write(5);
-    cout << m->read() << endl;
-    
-    delete m;
-    
+    cout << findMax(arr, CaseInsensitiveCompare{}) << endl;
+    cout << findMax(arr) << endl;
+
     return 0;
 }

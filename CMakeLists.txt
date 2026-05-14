@@ -38,8 +38,12 @@ link_directories(
 
 set(
     HEADERS
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/chapter1/ClassTemplate.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/chapter1/FunctionObject.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/chapter1/FunctionTemplate.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/chapter1/IntCell.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/chapter1/Recursion.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/chapter1/Square.h
 )
 
 set(
@@ -47,6 +51,7 @@ set(
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/chapter1/IntCell.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/chapter1/Recursion.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/chapter1/Square.cpp
 )
 
 add_executable(
