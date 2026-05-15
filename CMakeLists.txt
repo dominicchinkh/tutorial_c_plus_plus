@@ -42,6 +42,7 @@ set(
     ${CMAKE_CURRENT_SOURCE_DIR}/src/chapter1/FunctionObject.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/chapter1/FunctionTemplate.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/chapter1/IntCell.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/chapter1/Matrix.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/chapter1/Recursion.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/chapter1/Square.h
 )
