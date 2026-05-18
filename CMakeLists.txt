@@ -38,21 +38,26 @@ link_directories(
 
 set(
     HEADERS
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/chapter1/ClassTemplate.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/chapter1/FunctionObject.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/chapter1/FunctionTemplate.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/chapter1/IntCell.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/chapter1/Matrix.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/chapter1/Recursion.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/chapter1/Square.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter1/ClassTemplate.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter1/FunctionObject.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter1/FunctionTemplate.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter1/IntCell.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter1/Matrix.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter1/Recursion.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter1/Square.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter2/BinarySearch.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter2/Exponentiation.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter2/GreatestCommonDivisor.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter2/MaximumSubsequence.h
 )
 
 set(
     SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/chapter1/IntCell.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/chapter1/Recursion.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/chapter1/Square.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter1/IntCell.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter1/Recursion.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter1/Square.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter2/MaximumSubsequence.cpp
 )
 
 add_executable(
