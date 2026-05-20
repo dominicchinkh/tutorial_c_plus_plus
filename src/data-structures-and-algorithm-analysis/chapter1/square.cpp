@@ -1,4 +1,4 @@
-#include "Square.h"
+#include "square.h"
 
 double Square::getSide() const
 {

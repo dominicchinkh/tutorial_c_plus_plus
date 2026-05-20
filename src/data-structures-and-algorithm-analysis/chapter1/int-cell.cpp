@@ -1,5 +1,5 @@
 #include <utility>
-#include "IntCell.h"
+#include "int-cell.h"
 
 // Note that default parameters are specified in the interface only.
 IntCell::IntCell(int initialValue) 

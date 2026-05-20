@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Recursion.h"
+#include "recursion.h"
 
 using namespace std;
 

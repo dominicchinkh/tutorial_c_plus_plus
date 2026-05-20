@@ -38,30 +38,30 @@ link_directories(
 
 set(
     HEADERS
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Concept/Chronium/Logging.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter1/ClassTemplate.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter1/FunctionObject.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter1/FunctionTemplate.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter1/IntCell.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter1/Matrix.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter1/Recursion.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter1/Square.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter2/BinarySearch.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter2/Exponentiation.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter2/GreatestCommonDivisor.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter2/MaximumSubsequence.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/EffectiveModernCPlusPlus/chapter1/TemplateTypeDeduction.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Experiment/Switch0.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Experiment/TokenPastingOperator.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/concept/chronium/logging.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/data-structures-and-algorithm-analysis/chapter1/class-template.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/data-structures-and-algorithm-analysis/chapter1fFunction-object.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/data-structures-and-algorithm-analysis/chapter1/function-template.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/data-structures-and-algorithm-analysis/chapter1/int-cell.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/data-structures-and-algorithm-analysis/chapter1/matrix.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/data-structures-and-algorithm-analysis/chapter1/recursion.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/data-structures-and-algorithm-analysis/chapter1/square.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/data-structures-and-algorithm-analysis/chapter2/binary-search.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/data-structures-and-algorithm-analysis/chapter2/exponentiation.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/data-structures-and-algorithm-analysis/chapter2/greatest-common-divisor.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/data-structures-and-algorithm-analysis/chapter2/maximum-subsequence.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/effective-modern-cpp/chapter1/template-type-deduction.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/experiment/switch0.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/experiment/token-pasting-operator.h
 )
 
 set(
     SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter1/IntCell.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter1/Recursion.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter1/Square.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter2/MaximumSubsequence.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/data-structures-and-algorithm-analysis/chapter1/int-cell.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/data-structures-and-algorithm-analysis/chapter1/recursion.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/data-structures-and-algorithm-analysis/chapter1/square.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/data-structures-and-algorithm-analysis/chapter2/maximum-subsequence.cpp
 )
 
 add_executable(

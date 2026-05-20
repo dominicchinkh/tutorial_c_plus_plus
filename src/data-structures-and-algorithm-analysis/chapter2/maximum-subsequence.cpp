@@ -1,4 +1,4 @@
-#include "MaximumSubsequence.h"
+#include "maximum-subsequence.h"
 
 #include <iostream>
 
