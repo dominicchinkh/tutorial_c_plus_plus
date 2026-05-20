@@ -38,6 +38,7 @@ link_directories(
 
 set(
     HEADERS
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Concept/Chronium/Logging.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter1/ClassTemplate.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter1/FunctionObject.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter1/FunctionTemplate.h
@@ -49,6 +50,9 @@ set(
     ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter2/Exponentiation.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter2/GreatestCommonDivisor.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/DataStructuresAndAlgorithmAnalysis/chapter2/MaximumSubsequence.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/EffectiveModernCPlusPlus/chapter1/TemplateTypeDeduction.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Experiment/Switch0.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Experiment/TokenPastingOperator.h
 )
 
 set(
