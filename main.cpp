@@ -1,13 +1,13 @@
 #include <iostream>
 #include <vector>
 
-#include "src/book/data-structures-and-algorithm-analysis/chapter3/linked-list-stack.h"
+#include "src/book/data-structures-and-algorithm-analysis/chapter3/vector-stack.h"
 
 using namespace std;
 
 int main(int argc, char *argv[]) 
 {
-    LinkedListStack<int> a;
+    VectorStack<int> a;
 
     cout << "Current size: " << a.size() << endl;
     cout << "Is empty? " << (a.empty() ? 'Y':'N') << endl;
