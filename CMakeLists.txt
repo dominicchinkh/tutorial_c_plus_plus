@@ -50,6 +50,7 @@ set(
     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter2/exponentiation.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter2/greatest-common-divisor.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter2/maximum-subsequence.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter3/array-stack.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter3/container.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter3/linked-list-stack.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter3/list.h

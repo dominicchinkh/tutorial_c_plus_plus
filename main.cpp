@@ -1,13 +1,12 @@
 #include <iostream>
-#include <vector>
 
-#include "src/book/data-structures-and-algorithm-analysis/chapter3/vector-stack.h"
+#include "src/book/data-structures-and-algorithm-analysis/chapter3/array-stack.h"
 
 using namespace std;
 
 int main(int argc, char *argv[]) 
 {
-    VectorStack<int> a;
+    ArrayStack<int> a;
 
     cout << "Current size: " << a.size() << endl;
     cout << "Is empty? " << (a.empty() ? 'Y':'N') << endl;
