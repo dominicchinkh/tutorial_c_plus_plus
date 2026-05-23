@@ -40,8 +40,8 @@ class ArrayStack
         static constexpr int DEFAULT_SIZE = 2;
 
         /*
-         * The Rule of Three states that if your class manages a raw resource (like a raw heap pointer allocated via new), you almost certainly need 
-         * to explicitly define three special member functions:
+         * The Rule of Three states that if your class manages a raw resource (like a raw heap pointer allocated via new), you almost 
+         * certainly need to explicitly define three special member functions:
          * 
          *   Destructor (to free the memory)
          *   Copy Constructor (to duplicate the memory)
