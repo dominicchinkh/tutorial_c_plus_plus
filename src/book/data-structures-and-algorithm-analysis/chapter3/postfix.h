@@ -107,7 +107,7 @@ class Postfix
                         number = 0;
                     }
 
-                    // Edge case: if a user types an invalid character like ?
+                    // Edge case: if a user types an invalid character like `?`
                     if (ch != '+' && ch != '*' && ch != '-') {
                         throw std::invalid_argument("Unknown or unsupported operator encountered.");
                     }
