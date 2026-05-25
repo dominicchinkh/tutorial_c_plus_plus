@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 4.0)
-set(CMAKE_CXX_STANDARD 14)
+
+# 1. Force the C++17 standard
+set(CMAKE_CXX_STANDARD 17)
+
+# 2. Ensure that C++17 is an absolute requirement (fails early if the compiler is too old)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(
     PROJECT
@@ -59,6 +64,7 @@ set(
     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter3/postfix.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter3/vector.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter3/vector-stack.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter4/binary-search-tree.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/effective-modern-cpp/chapter1/template-type-deduction.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/experiment/switch0.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/experiment/token-pasting-operator.h

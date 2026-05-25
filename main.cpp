@@ -1,31 +1,45 @@
 #include <iostream>
 
-#include "src/book/data-structures-and-algorithm-analysis/chapter3/array-queue.h"
+#include "src/book/data-structures-and-algorithm-analysis/chapter4/binary-search-tree.h"
 
 using namespace std;
 
 int main(int argc, char *argv[]) 
 {
-    ArrayQueue<int> a;
+    BinarySearchTree<int> a;
+    
+    std::cout << "Binary search tree is " << (a.empty()? "empty" : "not empty") << std::endl;
 
-    a.enqueue(34);
-    a.enqueue(65);
-    a.enqueue(98);
+    a.insert(4);
+    a.insert(2);
+    a.insert(6);
+    a.insert(7);
+    a.insert(1);
 
-    // a.dequeue();
-    // a.dequeue();
-    // a.dequeue();
+    std::cout << "Binary search tree is " << (a.empty()? "empty" : "not empty") << std::endl;
 
-    // std::cout << a.dequeue() << std::endl;
-    // std::cout << a.dequeue() << std::endl;
-    // std::cout << a.dequeue() << std::endl;
+    a.printTree(); // expect 4, 2, 1, 6, 7
 
-    // ArrayQueue copy
-    ArrayQueue<int> b(a);
+    if (auto minVal = a.findMin()) {
+        std::cout << "The minimum value is: " << *minVal << std::endl;
+    } else {
+        std::cout << "The structure is empty, no minimum found." << std::endl;
+    }
 
-    std::cout << b.dequeue() << std::endl;
-    std::cout << b.dequeue() << std::endl;
-    std::cout << b.dequeue() << std::endl;
+    if (auto maxVal = a.findMax()) {
+        std::cout << "The maximum value is: " << *maxVal << std::endl;
+    } else {
+        std::cout << "The structure is empty, no maximum found." << std::endl;
+    }
+
+    a.remove(6);
+    a.printTree(); // expect 4, 2, 1, 7
+
+    BinarySearchTree<int> b{a};
+    b.printTree(); // expect 4, 2, 1, 7
+
+    a.makeEmpty();
+    std::cout << "Binary search tree is " << (a.empty()? "empty" : "not empty") << std::endl;
 
     return 0;
 }
