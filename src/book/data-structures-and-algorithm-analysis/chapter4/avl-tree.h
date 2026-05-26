@@ -1,25 +1,28 @@
-#ifndef BINARY_SEARCH_TREE_H
-#define BINARY_SEARCH_TREE_H
+#ifndef AVL_TREE_H
+#define AVL_TREE_H
 
-#include <iostream>
 #include <optional>
 
 /*
  *  int main(int argc, char *argv[]) 
  *  {
- *      BinarySearchTree<int> a;
+ *      AvlTree<int> a;
  *  
- *      std::cout << "Binary search tree is " << (a.empty()? "empty" : "not empty") << std::endl;
+ *      std::cout << "AVL tree is " << (a.empty()? "empty" : "not empty") << std::endl;
  *  
- *      a.insert(4);
- *      a.insert(2);
- *      a.insert(6);
- *      a.insert(7);
- *      a.insert(1);
+ *      a.insert(10);
+ *      a.insert(11);
+ *      a.insert(12);
+ *      a.insert(13);
+ *      a.insert(14);
+ *      a.insert(15);
+ *      a.insert(16);
+ *      a.insert(8);
+ *      a.insert(9);
  *  
- *      std::cout << "Binary search tree is " << (a.empty()? "empty" : "not empty") << std::endl;
+ *      std::cout << "AVL tree is " << (a.empty()? "empty" : "not empty") << std::endl;
  *  
- *      a.printTree(); // expect 4, 2, 1, 6, 7
+ *      a.printTree(); // expect 13, 11, 9, 8, 10, 12, 15, 14, 16
  *  
  *      if (auto minVal = a.findMin()) {
  *          std::cout << "The minimum value is: " << *minVal << std::endl;
@@ -33,53 +36,53 @@
  *          std::cout << "The structure is empty, no maximum found." << std::endl;
  *      }
  *  
- *      a.remove(6);
- *      a.printTree(); // expect 4, 2, 1, 7
+ *      a.remove(11);
+ *      a.printTree(); // expect 13, 9, 8, 12, 10, 15, 14, 16
  *  
- *      BinarySearchTree<int> b{a};
- *      b.printTree(); // expect 4, 2, 1, 7
- * 
- *      a.makeEmpty();
- *      std::cout << "Binary search tree is " << (a.empty()? "empty" : "not empty") << std::endl;
+ *      AvlTree<int> b{a};
+ *      b.printTree(); // expect 13, 9, 8, 12, 10, 15, 14, 16
+ *       a.makeEmpty();
+ *      std::cout << "AVL tree is " << (a.empty()? "empty" : "not empty") << std::endl;
  *  
  *      return 0;
  *  }
-*/
+ */
 template <typename Comparable>
-class BinarySearchTree
+class AvlTree
 {
     public:
-        BinarySearchTree(): root {nullptr} {}
-        
-        BinarySearchTree(const BinarySearchTree & rhs): root {nullptr}
+        static constexpr int ALLOWED_IMBALANCE = 1;
+
+    public:
+        AvlTree(): root {nullptr} {}
+
+        AvlTree(const AvlTree & rhs): root {nullptr}
         {
             root = clone(rhs.root);
         }
 
-        // BinarySearchTree(BinarySearchTree && rhs);
-
-        ~BinarySearchTree()
+        ~AvlTree()
         {
             makeEmpty();
         }
 
         std::optional<Comparable> findMin() const
         {
-            BinaryNode * n = findMin(root);
+            AvlNode *n = findMin(root);
 
             if (n == nullptr) {
                 return std::nullopt;
-            }  
+            }
             return n->element;
         }
 
         std::optional<Comparable> findMax() const
         {
-            BinaryNode * n = findMax(root);
+            AvlNode *n = findMax(root);
 
             if (n == nullptr) {
                 return std::nullopt;
-            }  
+            }
             return n->element;
         }
 
@@ -93,12 +96,12 @@ class BinarySearchTree
             return root == nullptr;
         }
 
-        void printTree(std::ostream & out = std::cout) const
+        void printTree() const
         {
             printTree(root, std::cout);
         }
 
-        void makeEmpty() 
+        void makeEmpty()
         {
             makeEmpty(root);
         }
@@ -119,25 +122,35 @@ class BinarySearchTree
         }
 
     private:
-        struct BinaryNode
+        struct AvlNode
         {
             Comparable element;
-            BinaryNode *left;
-            BinaryNode *right;
+            AvlNode* left;
+            AvlNode* right;
+            int height;
 
-            BinaryNode(const Comparable & theElement, BinaryNode* lt, BinaryNode* rt):
-                element {theElement}, left {lt}, right {rt} {}
+            AvlNode(const Comparable & ele, AvlNode *lt, AvlNode* rt, int h = 0):
+                element {ele}, left {lt}, right {rt}, height {h} 
+            {
+            }
 
-            BinaryNode(Comparable && theElement, BinaryNode* lt, BinaryNode* rt):
-                element {std::move(theElement)}, left {lt}, right {rt} {}
+            AvlNode(Comparable && ele, AvlNode *lt, AvlNode *rt, int h = 0):
+                element {std::move(ele)}, left {lt}, right {rt}, height {h} 
+            {
+            }
         };
 
-        BinaryNode *root;
+        AvlNode *root;
 
-        void insert(const Comparable & x, BinaryNode * & t)
+        int height(AvlNode *t) const
+        {
+            return (t == nullptr)? -1 : t->height;
+        }
+
+        void insert(const Comparable & x, AvlNode * & t)
         {
             if (t == nullptr) {
-                t = new BinaryNode{x, nullptr, nullptr};
+                t = new AvlNode{x, nullptr, nullptr, 0};
             }
             else if (x < t->element) {
                 insert(x, t->left);
@@ -148,12 +161,14 @@ class BinarySearchTree
             else {
                 // Duplicate - do nothing
             }
+
+            balance(t);
         }
 
-        void insert(Comparable && x, BinaryNode * & t)
+        void insert(Comparable && x, AvlNode * & t)
         {
             if (t == nullptr) {
-                t = new BinaryNode{std::move(x), nullptr, nullptr};
+                t = new AvlNode{std::move(x), nullptr, nullptr, 0};
             }
             else if (x < t->element) {
                 insert(std::move(x), t->left);
@@ -162,11 +177,13 @@ class BinarySearchTree
                 insert(std::move(x), t->right);
             }
             else {
-                // Duplicate - Do nothing
+                // Duplicate - do nothing
             }
+
+            balance(t);
         }
 
-        void remove(const Comparable & x, BinaryNode * & t)
+        void remove(const Comparable & x, AvlNode * & t)
         {
             if (t == nullptr) {
                 return;
@@ -187,13 +204,77 @@ class BinarySearchTree
                 // 1. If the node is a leaf, it can be deleted immediately
                 // 2. If the node has one child, the node can be deleted after its parent adjusts a link to bypass the node
                 
-                BinaryNode *oldNode = t;
+                AvlNode *oldNode = t;
                 t = (t->left != nullptr)? t->left: t->right;
                 delete oldNode;
             }
+
+            balance(t);
+         }
+
+        void balance(AvlNode * & t)
+        {
+            if (t == nullptr) {
+                return;
+            }
+
+            if (height(t->left) - height(t->right) > ALLOWED_IMBALANCE) {
+                if (height(t->left->left) >= height(t->left->right)) {
+                    rotateWithLeftChild(t);
+                }
+                else {
+                    doubleRotateWithLeftChild(t);
+                }
+            }
+            else if (height(t->right) - height(t->left) > ALLOWED_IMBALANCE) {
+                if (height(t->right->right) >= height(t->right->left)) {
+                    rotateWithRightChild(t);
+                }
+                else {
+                    doubleRotateWithRightChild(t);
+                }
+            }
+
+            t->height = std::max(height(t->left), height(t->right)) + 1;
         }
-        
-        BinaryNode * findMin(BinaryNode *t) const
+
+        void rotateWithLeftChild(AvlNode * & k2) 
+        {
+            AvlNode *k1 = k2->left;
+            k2->left = k1->right;
+            k1->right = k2;
+
+            k2->height = std::max(height(k2->left), height(k2->right)) + 1;
+            k1->height = std::max(height(k1->left), k2->height) + 1;
+
+            k2 = k1;
+        }
+
+        void rotateWithRightChild(AvlNode * & k2) 
+        {
+            AvlNode *k1 = k2->right;
+            k2->right = k1->left;
+            k1->left = k2;
+
+            k2->height = std::max(height(k2->left), height(k2->right)) + 1;
+            k1->height = std::max(k2->height, height(k1->right));
+
+            k2 = k1;
+        }
+
+        void doubleRotateWithLeftChild(AvlNode * & k3) 
+        {
+            rotateWithRightChild(k3->left);
+            rotateWithLeftChild(k3);
+        }
+
+        void doubleRotateWithRightChild(AvlNode * & k3) 
+        {
+            rotateWithLeftChild(k3->right);
+            rotateWithRightChild(k3);
+        }
+
+        AvlNode * findMin(AvlNode *t) const
         {
             if (t == nullptr) {
                 return nullptr;
@@ -205,7 +286,7 @@ class BinarySearchTree
             return findMin(t->left);
         }
 
-        BinaryNode * findMax(BinaryNode *t) const
+        AvlNode * findMax(AvlNode *t) const
         {
             if (t == nullptr) {
                 return nullptr;
@@ -217,31 +298,7 @@ class BinarySearchTree
             return findMax(t->right);
         }
 
-        /*
-        BinaryNode * findMin(BinaryNode *t) const
-        {
-            if (t != nullptr) {
-                while (t != nullptr) {
-                    t = t->left;
-                }
-            }
-
-            return t;
-        }
-
-        BinaryNode * findMax(BinaryNode *t) const
-        {
-            if (t != nullptr) {
-                while (t != nullptr) {
-                    t = t->right;
-                }
-            }
-
-            return t;
-        }
-        */
-
-        bool contains(const Comparable & x, BinaryNode * t) const
+        bool contains(const Comparable & x, AvlNode *t) const
         {
             if (t == nullptr) {
                 return false;
@@ -258,7 +315,7 @@ class BinarySearchTree
             }
         }
 
-        void makeEmpty(BinaryNode * & t)
+        void makeEmpty(AvlNode * & t)
         {
             if (t != nullptr) {
                 makeEmpty(t->left);
@@ -270,22 +327,22 @@ class BinarySearchTree
             t = nullptr;
         }
 
-        void printTree(BinaryNode *t, std::ostream & out = std::cout) const
+        void printTree(AvlNode *t, std::ostream & out = std::cout) const
         {
             if (t != nullptr) {
                 out << t->element << std::endl;
-                printTree(t->left);
-                printTree(t->right);
+                printTree(t->left, out);
+                printTree(t->right, out);
             }
         }
 
-        BinaryNode * clone(BinaryNode *t) const
+        AvlNode * clone(AvlNode *t) const
         {
             if (t == nullptr) {
                 return nullptr;
             }
             else {
-                return new BinaryNode{t->element, clone(t->left), clone(t->right)};
+                return new AvlNode{ t->element, clone(t->left), clone(t->right), t->height };
             }
         }
 };

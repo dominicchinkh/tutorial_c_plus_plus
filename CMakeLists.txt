@@ -41,43 +41,52 @@ link_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/bin
 )
 
-set(
-    HEADERS
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/concept/chronium/logging.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter1/class-template.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter1fFunction-object.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter1/function-template.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter1/int-cell.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter1/matrix.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter1/recursion.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter1/square.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter2/binary-search.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter2/exponentiation.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter2/greatest-common-divisor.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter2/maximum-subsequence.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter3/array-queue.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter3/array-stack.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter3/balancing-symbol.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter3/container.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter3/linked-list-stack.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter3/list.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter3/postfix.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter3/vector.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter3/vector-stack.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter4/binary-search-tree.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/book/effective-modern-cpp/chapter1/template-type-deduction.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/experiment/switch0.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/experiment/token-pasting-operator.h
+file(GLOB_RECURSE HEADERS 
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/*.h
 )
 
-set(
-    SOURCES
+file(GLOB_RECURSE SOURCES 
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter1/int-cell.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter1/recursion.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter1/square.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter2/maximum-subsequence.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
 )
+
+# set(
+#     HEADERS
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/concept/chronium/logging.h
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter1/class-template.h
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter1fFunction-object.h
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter1/function-template.h
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter1/int-cell.h
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter1/matrix.h
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter1/recursion.h
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter1/square.h
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter2/binary-search.h
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter2/exponentiation.h
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter2/greatest-common-divisor.h
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter2/maximum-subsequence.h
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter3/array-queue.h
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter3/array-stack.h
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter3/balancing-symbol.h
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter3/container.h
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter3/linked-list-stack.h
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter3/list.h
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter3/postfix.h
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter3/vector.h
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter3/vector-stack.h
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter4/binary-search-tree.h
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/effective-modern-cpp/chapter1/template-type-deduction.h
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/experiment/switch0.h
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/experiment/token-pasting-operator.h
+# )
+
+# set(
+#     SOURCES
+#     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter1/int-cell.cpp
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter1/recursion.cpp
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter1/square.cpp
+#     ${CMAKE_CURRENT_SOURCE_DIR}/src/book/data-structures-and-algorithm-analysis/chapter2/maximum-subsequence.cpp
+# )
 
 add_executable(
     ${PROJECT}
