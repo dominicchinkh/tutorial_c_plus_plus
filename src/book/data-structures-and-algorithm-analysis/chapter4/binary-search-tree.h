@@ -93,11 +93,6 @@ class BinarySearchTree
             return root == nullptr;
         }
 
-        void printTree(std::ostream & out = std::cout) const
-        {
-            printTree(root, std::cout);
-        }
-
         void makeEmpty() 
         {
             makeEmpty(root);
@@ -116,6 +111,11 @@ class BinarySearchTree
         void remove(const Comparable & x)
         {
             remove(x, root);
+        }
+
+        void printTree(std::ostream & out = std::cout) const
+        {
+            printTree(root, std::cout);
         }
 
     private:
@@ -266,8 +266,6 @@ class BinarySearchTree
                 delete t;
                 t = nullptr;
             }
-
-            t = nullptr;
         }
 
         void printTree(BinaryNode *t, std::ostream & out = std::cout) const

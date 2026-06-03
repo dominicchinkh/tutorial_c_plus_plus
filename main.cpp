@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 
     AvlTree<int> b{a};
     b.printTree(); // expect 13, 9, 8, 12, 10, 15, 14, 16
-     a.makeEmpty();
+    a.makeEmpty();
     std::cout << "AVL tree is " << (a.empty()? "empty" : "not empty") << std::endl;
 
     return 0;
