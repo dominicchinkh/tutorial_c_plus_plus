@@ -1,48 +1,49 @@
 #include <iostream>
 
-#include "src/book/data-structures-and-algorithm-analysis/chapter4/avl-tree.h"
+// #include "src/book/data-structures-and-algorithm-analysis/chapter3/vector.h"
+#include "src/book/data-structures-and-algorithm-analysis/chapter4/set.h"
 
 using namespace std;
 
 int main(int argc, char *argv[]) 
 {
-    AvlTree<int> a;
+    Set<int> a(3);
+    a[0] = 34;
+    a[1] = 56;
+    a[2] = 98;
 
-    std::cout << "AVL tree is " << (a.empty()? "empty" : "not empty") << std::endl;
+    Set<int> b(a);
+    Set<int> c = a;
 
-    a.insert(10);
-    a.insert(11);
-    a.insert(12);
-    a.insert(13);
-    a.insert(14);
-    a.insert(15);
-    a.insert(16);
-    a.insert(8);
-    a.insert(9);
+    cout << "b: " << b[0] << ' ' << b[1] << ' ' << b[2] << endl;
+    cout << "c: " << c[0] << ' ' << c[1] << ' ' << c[2] << endl;
 
-    std::cout << "AVL tree is " << (a.empty()? "empty" : "not empty") << std::endl;
+    cout << "Current size: " << a.size() << endl;
+    cout << "Current capacity: " << a.capacity() << endl;
 
-    a.printTree(); // expect 13, 11, 9, 8, 10, 12, 15, 14, 16
+    a.insert(47);
+    cout << "New element at index " << (a.size() - 1) << ": "  << a[a.size() - 1] << endl;
 
-    if (auto minVal = a.findMin()) {
-        std::cout << "The minimum value is: " << *minVal << std::endl;
-    } else {
-        std::cout << "The structure is empty, no minimum found." << std::endl;
+    a.print();
+
+    a.erase(56);
+    cout << "a new size after erase: " << a.size() << endl;
+
+    a.print();
+
+    a.reserve(20);
+
+    cout << "New size after reserve: " << a.size() << endl;
+    cout << "New capacity after reserve: " << a.capacity() << endl;
+
+    Set<int>::iterator itr = a.begin();
+
+    cout << "a elements: " << endl;
+    for (Set<int>::iterator itr = a.begin(); itr != a.end(); ++itr) {
+        cout << *(itr) << endl;
     }
 
-    if (auto maxVal = a.findMax()) {
-        std::cout << "The maximum value is: " << *maxVal << std::endl;
-    } else {
-        std::cout << "The structure is empty, no maximum found." << std::endl;
-    }
-
-    a.remove(11);
-    a.printTree(); // expect 13, 9, 8, 12, 10, 15, 14, 16
-
-    AvlTree<int> b{a};
-    b.printTree(); // expect 13, 9, 8, 12, 10, 15, 14, 16
-    a.makeEmpty();
-    std::cout << "AVL tree is " << (a.empty()? "empty" : "not empty") << std::endl;
-
+    a.print();
+    
     return 0;
 }

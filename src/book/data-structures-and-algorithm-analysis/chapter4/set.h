@@ -1,18 +1,20 @@
-#ifndef VECTOR_H
-#define VECTOR_H
+#ifndef SET_H
+#define SET
 
 #include <algorithm>
+#include <iostream>
+#include <optional>
 
 /*
  *  int main(int argc, char *argv[]) 
  *  {
- *      Vector<int> a(3);
+ *      Set<int> a(3);
  *      a[0] = 34;
  *      a[1] = 56;
  *      a[2] = 98;
  *  
- *      Vector<int> b(a);
- *      Vector<int> c = a;
+ *      Set<int> b(a);
+ *      Set<int> c = a;
  *  
  *      cout << "b: " << b[0] << ' ' << b[1] << ' ' << b[2] << endl;
  *      cout << "c: " << c[0] << ' ' << c[1] << ' ' << c[2] << endl;
@@ -20,32 +22,35 @@
  *      cout << "Current size: " << a.size() << endl;
  *      cout << "Current capacity: " << a.capacity() << endl;
  *  
- *      a.resize(6);
- *      a.reserve(20);
- *  
- *      cout << "New size: " << a.size() << endl;
- *      cout << "New capacity: " << a.capacity() << endl;
- *      
- *      a.push_back(47);
+ *      a.insert(47);
  *      cout << "New element at index " << (a.size() - 1) << ": "  << a[a.size() - 1] << endl;
  *  
- *      a.pop_back();
- *      cout << "a new size after pop_back: " << a.size() << endl;
- *      cout << "a last element after pop_back: " << a.back() << endl;
+ *      a.print();
  *  
- *      Vector<int>::iterator itr = a.begin();
+ *      a.erase(56);
+ *      cout << "a new size after erase: " << a.size() << endl;
+ *  
+ *      a.print();
+ *  
+ *      a.reserve(20);
+ *  
+ *      cout << "New size after reserve: " << a.size() << endl;
+ *      cout << "New capacity after reserve: " << a.capacity() << endl;
+ *  
+ *      Set<int>::iterator itr = a.begin();
  *  
  *      cout << "a elements: " << endl;
- *      for (Vector<int>::iterator itr = a.begin(); itr != a.end(); ++itr) {
+ *      for (Set<int>::iterator itr = a.begin(); itr != a.end(); ++itr) {
  *          cout << *(itr) << endl;
  *      }
+ *  
+ *      a.print();
  *      
  *      return 0;
  *  }
- * 
  */
 template <typename Object>
-class Vector
+class Set
 {
     public:
         // Forward declare the nested iterator classes
@@ -55,23 +60,30 @@ class Vector
         class const_iterator
         {
             public:
-                const_iterator(): current {nullptr}, theVector {nullptr} {}
+                // Add these lines so std::find works:
+                using iterator_category = std::random_access_iterator_tag;
+                using value_type        = Object;
+                using difference_type   = std::ptrdiff_t;
+                using pointer           = const Object*;
+                using reference         = const Object&;
+
+                const_iterator(): current {nullptr}, theSet {nullptr} {}
 
                 const Object & operator*() const
                 {
                     assertIsValid();
-                    if (current == theVector->end_ptr()) {
+                    if (current == theSet->end_ptr()) {
                         throw std::out_of_range("Attempted to dereference an end() iterator");
                     }
 
                     return *current;
                 }
 
-                const Object * operator->() const
+                const Object & operator->() const
                 {
                     assertIsValid();
-                    if (current == theVector->end_ptr()) {
-                        throw std::out_of_range("Attempted to access an end() iterator");
+                    if (current == theSet->end_ptr()) {
+                        throw std::out_of_range("Attempted to dereference an end() iterator");
                     }
 
                     return current;
@@ -80,8 +92,8 @@ class Vector
                 const_iterator operator++()
                 {
                     assertIsValid();
-                    if (current == theVector->end_ptr()) {
-                        throw std::out_of_range("Attempted to increment past end() iterator");
+                    if (current == theSet->end_ptr()) {
+                        throw std::out_of_range("Attempted to increment pass end() iterator");
                     }
 
                     ++current;
@@ -98,11 +110,11 @@ class Vector
                 const_iterator operator--()
                 {
                     assertIsValid();
-                    if (current == theVector->begin_ptr()) {
+                    if (current == theSet->begin_ptr()) {
                         throw std::out_of_range("Attempted to decrement past an begin() iterator");
                     }
 
-                    current--;
+                    --current;
                     return *this;
                 }
 
@@ -113,32 +125,30 @@ class Vector
                     return old;
                 }
 
-                bool operator==(const const_iterator & rhs)
+                bool operator==(const const_iterator & rhs) const
                 {
                     return current == rhs.current;
                 }
 
-                bool operator!=(const const_iterator & rhs)
+                bool operator!=(const const_iterator & rhs) const
                 {
                     return !(*this == rhs);
                 }
 
             private:
                 Object * current;
-                const Vector<Object> * theVector;
+                const Set<Object> * theSet;
 
-                const_iterator(Object *p, const Vector<Object> * v):
-                    current {p}, theVector {v}
-                {}
+                const_iterator(Object * p, const Set<Object> * v): current {p}, theSet {v} {}
 
                 void assertIsValid() const
                 {
-                    if (theVector == nullptr || current == nullptr) {
+                    if (theSet == nullptr || current == nullptr) {
                         throw std::runtime_error("Attempted to use an uninitialized iterator");
                     }
                 }
 
-                friend class Vector<Object>;
+                friend class Set<Object>;
         };
 
         class iterator: public const_iterator
@@ -151,12 +161,12 @@ class Vector
                  *
                  * Phase 1 (Syntax Check): 
                  *   The compiler looks at the template before it knows what Object is (e.g., when it 
-                 *   compiles the general Vector code). It looks for variables and functions that don't
+                 *   compiles the general Set code). It looks for variables and functions that don't
                  *   depend on the template parameters.
                  * 
                  * Phase 2 (Instantiation): 
                  *   The compiler looks at the code again when you actually create an object (like 
-                 *   Vector<int>), substituting Object with int.
+                 *   Set<int>), substituting Object with int.
                  * 
                  * During Phase 1, the compiler looks at the iterator class and sees assertIsValid() 
                  * and current.
@@ -174,7 +184,7 @@ class Vector
                 Object & operator*()
                 {
                     this->assertIsValid();
-                    if (this->current == this->theVector->end_ptr()) {
+                    if (this->current == this->theSet->end_ptr()) {
                         throw std::out_of_range("Attempted to dereference an end() iterator.");
                     }
 
@@ -192,7 +202,7 @@ class Vector
                  * 
                  * If you try to use a const iterator in your code like this:
                  * 
-                 *     void printFirst(const Vector<int>::iterator & itr) {
+                 *     void printFirst(const Set<int>::iterator & itr) {
                  *         std::cout << *itr << std::endl; // ERROR! Compiler fails here.
                  *     }
                  * 
@@ -201,7 +211,7 @@ class Vector
                  * non-const Object & operator*() hid the base class, it won't check const_iterator either.
                  * 
                  * Your compilation will fail with an error like:
-                 *   error: passing 'const Vector<int>::iterator' as 'this' argument discards qualifiers
+                 *   error: passing 'const Set<int>::iterator' as 'this' argument discards qualifiers
                  * 
                  * You can achieve the exact same result using a using declaration.
                  * 
@@ -209,7 +219,7 @@ class Vector
                  * 
                  */
                 
-                 const Object & operator*() const
+                const Object & operator*() const
                 {
                     return const_iterator::operator*();
                 }
@@ -217,7 +227,7 @@ class Vector
                 Object * operator->()
                 {
                     this->assertIsValid();
-                    if (this->current == this->theVector->end_ptr()) {
+                    if (this->current == this->theSet->end_ptr()) {
                         throw std::out_of_range("Attempted to access member of an end() iterator.");
                     }
 
@@ -256,55 +266,52 @@ class Vector
                 }
 
             private:
-                iterator(Object *p, const Vector<Object> * v): const_iterator {p, v} {}
+                iterator(Object * p, const Set<Object> * v): const_iterator {p, v} {}
 
-                friend class Vector<Object>;
-
+                friend class Set<Object>;
         };
 
         static const int SPARE_CAPACITY = 16;
 
-        explicit Vector(int size = 0): theSize {size}, theCapacity {size + SPARE_CAPACITY}
+        explicit Set(int size = 0): theSize {size}, theCapacity {size + SPARE_CAPACITY}
         {
             objects = new Object[theCapacity];
         }
 
-        Vector(const Vector & rhs): 
+        Set(const Set & rhs): 
             theSize {rhs.theSize}, theCapacity {rhs.theCapacity}, objects {nullptr}
         {
             objects = new Object[theCapacity];
-            for (int i = 0; i < theSize; i++) {
+            for (int i = 0; i < theSize; ++i) {
                 objects[i] = rhs.objects[i];
             }
         }
 
-        Vector(Vector && rhs): theSize {rhs.theSize}, theCapacity {rhs.theCapacity}, objects {rhs.objects}
+        Set(Set && rhs): 
+            theSize {rhs.theSize}, theCapacity {rhs.theCapacity}, objects {std::move(rhs.objects)}
         {
             rhs.objects = nullptr;
             rhs.theSize = 0;
             rhs.theCapacity = 0;
         }
 
-        ~Vector() 
+        ~Set()
         {
             delete[] objects;
         }
 
-        Vector & operator=(const Vector & rhs)
+        Set & operator=(const Set & rhs)
         {
-            // In the case where both Vectors have the same size, which can be tested for, it can be 
+            // In the case where both Sets have the same size, which can be tested for, it can be 
             // more efficient to simply copy each element one by one using Object’s operator=
 
-            Vector copy = rhs;
+            Set *copy = rhs;
             std::swap(*this, copy);
             return *this;
         }
-        
-        Vector & operator=(Vector && rhs)
-        {
-            // Swapping ensures that rhs gets a perfectly matched set of parameters (your old size, old 
-            // capacity, and old pointer), keeping it completely stable for its impending destruction.
 
+        Set & operator=(Set && rhs)
+        {
             std::swap(theSize, rhs.theSize);
             std::swap(theCapacity, rhs.theCapacity);
             std::swap(objects, rhs.objects);
@@ -312,29 +319,21 @@ class Vector
             return *this;
         }
 
-        void resize(int newSize)
-        {
-            if (newSize > theCapacity) {
-                reserve(newSize * 2);
-            }
-            theSize = newSize;
-        }
-
-        void reserve (int newCapacity)
+        void reserve(int newCapacity)
         {
             if (newCapacity < theSize) {
                 return;
             }
 
-            Object *newArray = new Object[newCapacity];
+            Object* newObjects = new Object[newCapacity];
             for (int i = 0; i < theSize; ++i) {
-                newArray[i] = std::move(objects[i]);
+                newObjects[i] = std::move(objects[i]);
             }
 
             theCapacity = newCapacity;
 
-            std::swap(objects, newArray);
-            delete[] newArray;
+            std::swap(objects, newObjects);
+            delete[] newObjects;
         }
 
         Object & operator[](int index)
@@ -357,7 +356,7 @@ class Vector
 
         bool empty() const
         {
-            return size() == 0;
+            return theSize == 0;
         }
 
         int size() const
@@ -370,32 +369,83 @@ class Vector
             return theCapacity;
         }
 
-        void push_back(const Object & x)
+        std::optional<iterator> insert(const Object & x) 
         {
-            if (theSize == theCapacity) {
-                reserve(2 * theCapacity + 1);
+            auto itr = std::find(begin(), end(), x);
+
+            if (itr != end()) {
+                return std::nullopt;
             }
-            objects[theSize++] = x;
+
+            if (theSize == theCapacity) {
+                reserve(theCapacity * 2);
+            }
+            
+            objects[theSize] = x;
+            ++theSize;
+
+            // Returns an iterator that represents where x is
+            return iterator(&objects[theSize - 1], this);
         }
 
-        void push_back(Object && x)
+        int erase(const Object & x)
         {
-            if (theSize == theCapacity) {
-                reserve(2 * theCapacity + 1);
+            auto itr = std::find(begin(), end(), x);
+            if (itr != end()) {
+                auto result = erase(itr);
+
+                if (result) {
+                    return 1; // Successful
+                }
             }
-            objects[theSize++] = std::move(x);
+
+            return 0; // Not successful
         }
 
-        void pop_back()
+        std::optional<iterator> erase(iterator itr)
         {
-            // Error checks in which an exception is thrown if the size is 0
+            if (itr == end()) {
+                return std::nullopt;
+            }
+
+            size_t index = &(*itr) - begin_ptr();
+            size_t lastIndex = theSize - 1;
+
+            // If it's not already the last element, swap it with the last element
+            if (index != lastIndex) {
+                objects[index] = std::move(objects[lastIndex]);
+            }
+
             --theSize;
+
+            // The element that used to be at the end is now at 'index'
+            return iterator(&objects[index], this);
         }
 
-        const Object & back()
+        std::optional<iterator> erase(iterator start, iterator end)
         {
-            // Error checks in which an exception is thrown if the size is 0
-            return objects[theSize - 1];
+            if (start == end) {
+                return std::nullopt;
+            }
+
+            size_t startIndex = &(*start) - begin_ptr();
+            size_t endIndex   = &(*end) - begin_ptr();
+            size_t numToRemove = endIndex - startIndex;
+
+            for (int i = 0; i < numToRemove; ++i) {
+                size_t targetIndex = startIndex + i;
+                size_t sourceIndex = theSize - 1 - i;
+
+                // If the source element is outside of our deletion zone, move it in
+                if (sourceIndex >= endIndex) {
+                    objects[targetIndex] = std::move(objects[sourceIndex]);
+                }
+            }
+
+            theSize -= numToRemove;
+
+            // Return the iterator to the element now occupying the start position
+            return iterator(&objects[startIndex], this);
         }
 
         iterator begin()
@@ -435,7 +485,7 @@ class Vector
                 out << " ]" << std::endl;
             }
         }
-        
+
     private:
         int theSize;
         int theCapacity;
