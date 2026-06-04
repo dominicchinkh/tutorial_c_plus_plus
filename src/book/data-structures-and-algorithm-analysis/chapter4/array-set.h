@@ -1,5 +1,5 @@
-#ifndef SET_H
-#define SET
+#ifndef ARRAY_SET_H
+#define ARRAY_SET_H
 
 #include <algorithm>
 #include <iostream>
