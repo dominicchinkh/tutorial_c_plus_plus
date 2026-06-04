@@ -44,6 +44,13 @@ int main(int argc, char *argv[])
     }
 
     a.print();
+
+    auto result = a.find(47);
+    if (result) {
+        // Use the dereference operator (*) on the optional to get the iterator,
+        // then dereference the iterator to get the value.
+        cout << **(result) << endl;
+    }
     
     return 0;
 }

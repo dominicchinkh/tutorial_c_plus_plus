@@ -45,6 +45,13 @@
  *      }
  *  
  *      a.print();
+ *  
+ *      auto result = a.find(47);
+ *      if (result) {
+ *          // Use the dereference operator (*) on the optional to get the iterator,
+ *          // then dereference the iterator to get the value.
+ *          cout << **(result) << endl;
+ *      }
  *      
  *      return 0;
  *  }
@@ -369,6 +376,16 @@ class Set
             return theCapacity;
         }
 
+        std::optional<const_iterator> find(const Object & x) const
+        {
+            auto itr = std::find(begin(), end(), x);
+            if (itr != end()) {
+                return itr;
+            }
+
+            return std::nullopt;
+        }
+
         std::optional<iterator> insert(const Object & x) 
         {
             auto itr = std::find(begin(), end(), x);
@@ -418,7 +435,10 @@ class Set
 
             --theSize;
 
-            // The element that used to be at the end is now at 'index'
+            // By standard convention, erase returns an iterator to the element 
+            // now occupying the position of the erased element.
+
+            // If we erased the last element, index == theSize, which is end().
             return iterator(&objects[index], this);
         }
 
