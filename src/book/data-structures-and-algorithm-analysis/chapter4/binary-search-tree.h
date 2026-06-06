@@ -115,7 +115,7 @@ class BinarySearchTree
 
         void printTree(std::ostream & out = std::cout) const
         {
-            printTree(root, std::cout);
+            printTree(root, cout);
         }
 
     private:
@@ -125,11 +125,11 @@ class BinarySearchTree
             BinaryNode *left;
             BinaryNode *right;
 
-            BinaryNode(const Comparable & theElement, BinaryNode* lt, BinaryNode* rt):
-                element {theElement}, left {lt}, right {rt} {}
+            BinaryNode(const Comparable & el, BinaryNode* lt, BinaryNode* rt):
+                element {el}, left {lt}, right {rt} {}
 
-            BinaryNode(Comparable && theElement, BinaryNode* lt, BinaryNode* rt):
-                element {std::move(theElement)}, left {lt}, right {rt} {}
+            BinaryNode(Comparable && el, BinaryNode* lt, BinaryNode* rt):
+                element {std::move(el)}, left {lt}, right {rt} {}
         };
 
         BinaryNode *root;

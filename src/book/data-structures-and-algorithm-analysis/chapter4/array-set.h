@@ -8,13 +8,13 @@
 /*
  *  int main(int argc, char *argv[]) 
  *  {
- *      Set<int> a(3);
+ *      ArraySet<int> a(3);
  *      a[0] = 34;
  *      a[1] = 56;
  *      a[2] = 98;
  *  
- *      Set<int> b(a);
- *      Set<int> c = a;
+ *      ArraySet<int> b(a);
+ *      ArraySet<int> c = a;
  *  
  *      cout << "b: " << b[0] << ' ' << b[1] << ' ' << b[2] << endl;
  *      cout << "c: " << c[0] << ' ' << c[1] << ' ' << c[2] << endl;
@@ -37,10 +37,10 @@
  *      cout << "New size after reserve: " << a.size() << endl;
  *      cout << "New capacity after reserve: " << a.capacity() << endl;
  *  
- *      Set<int>::iterator itr = a.begin();
+ *      auto itr = a.begin();
  *  
  *      cout << "a elements: " << endl;
- *      for (Set<int>::iterator itr = a.begin(); itr != a.end(); ++itr) {
+ *      for (auto itr = a.begin(); itr != a.end(); ++itr) {
  *          cout << *(itr) << endl;
  *      }
  *  
@@ -57,7 +57,7 @@
  *  }
  */
 template <typename Object>
-class Set
+class ArraySet
 {
     public:
         // Forward declare the nested iterator classes
@@ -68,7 +68,7 @@ class Set
         {
             public:
                 // Add these lines so std::find works:
-                using iterator_category = std::random_access_iterator_tag;
+                using iterator_category = std::bidirectional_iterator_tag;
                 using value_type        = Object;
                 using difference_type   = std::ptrdiff_t;
                 using pointer           = const Object*;
@@ -86,7 +86,9 @@ class Set
                     return *current;
                 }
 
-                const Object & operator->() const
+                // The arrow operator -> in C++ has a very specific rule: it must return either 
+                // a raw pointer or another object that itself overloads ->
+                const Object * operator->() const
                 {
                     assertIsValid();
                     if (current == theSet->end_ptr()) {
@@ -96,7 +98,7 @@ class Set
                     return current;
                 }
 
-                const_iterator operator++()
+                const_iterator & operator++()
                 {
                     assertIsValid();
                     if (current == theSet->end_ptr()) {
@@ -114,7 +116,7 @@ class Set
                     return old;
                 }
 
-                const_iterator operator--()
+                const_iterator & operator--()
                 {
                     assertIsValid();
                     if (current == theSet->begin_ptr()) {
@@ -143,10 +145,12 @@ class Set
                 }
 
             private:
-                Object * current;
-                const Set<Object> * theSet;
+                // Can modify current itself (meaning you can change what it points to), but you cannot modify the 
+                // data inside the object it points to.
+                const Object * current;
+                const ArraySet<Object> * theSet;
 
-                const_iterator(Object * p, const Set<Object> * v): current {p}, theSet {v} {}
+                const_iterator(const Object * p, const ArraySet<Object> * s): current {p}, theSet {s} {}
 
                 void assertIsValid() const
                 {
@@ -155,9 +159,8 @@ class Set
                     }
                 }
 
-                friend class Set<Object>;
+                friend class ArraySet<Object>;
         };
-
         class iterator: public const_iterator
         {
             public:
@@ -168,12 +171,12 @@ class Set
                  *
                  * Phase 1 (Syntax Check): 
                  *   The compiler looks at the template before it knows what Object is (e.g., when it 
-                 *   compiles the general Set code). It looks for variables and functions that don't
+                 *   compiles the general ArraySet code). It looks for variables and functions that don't
                  *   depend on the template parameters.
                  * 
                  * Phase 2 (Instantiation): 
                  *   The compiler looks at the code again when you actually create an object (like 
-                 *   Set<int>), substituting Object with int.
+                 *   ArraySet<int>), substituting Object with int.
                  * 
                  * During Phase 1, the compiler looks at the iterator class and sees assertIsValid() 
                  * and current.
@@ -195,7 +198,7 @@ class Set
                         throw std::out_of_range("Attempted to dereference an end() iterator.");
                     }
 
-                    return *(this->current);
+                    return const_cast<Object &>(*(this->current));
                 }
 
                 /*
@@ -209,7 +212,7 @@ class Set
                  * 
                  * If you try to use a const iterator in your code like this:
                  * 
-                 *     void printFirst(const Set<int>::iterator & itr) {
+                 *     void printFirst(const ArraySet<int>::iterator & itr) {
                  *         std::cout << *itr << std::endl; // ERROR! Compiler fails here.
                  *     }
                  * 
@@ -218,7 +221,7 @@ class Set
                  * non-const Object & operator*() hid the base class, it won't check const_iterator either.
                  * 
                  * Your compilation will fail with an error like:
-                 *   error: passing 'const Set<int>::iterator' as 'this' argument discards qualifiers
+                 *   error: passing 'const ArraySet<int>::iterator' as 'this' argument discards qualifiers
                  * 
                  * You can achieve the exact same result using a using declaration.
                  * 
@@ -238,7 +241,11 @@ class Set
                         throw std::out_of_range("Attempted to access member of an end() iterator.");
                     }
 
-                    return this->current;
+                    // `current` is `const Object*` in the base class, iterator::operator->() will fail
+                    // to compile here because it tries to cast away const-ness implicitly to return a
+                    // mutable Object*. To fix this, you must use a const_cast
+
+                    return const_cast<Object*>(this->current);
                 }
 
                 const Object * operator->() const
@@ -246,7 +253,7 @@ class Set
                     return const_iterator::operator->();
                 }
 
-                iterator operator++()
+                iterator & operator++()
                 {
                     const_iterator::operator++();
                     return *this;
@@ -259,7 +266,7 @@ class Set
                     return old;
                 }
 
-                iterator operator--()
+                iterator & operator--()
                 {
                     const_iterator::operator--();
                     return *this;
@@ -273,19 +280,19 @@ class Set
                 }
 
             private:
-                iterator(Object * p, const Set<Object> * v): const_iterator {p, v} {}
+                iterator(Object * p, const ArraySet<Object> * s): const_iterator {p, s} {}
 
-                friend class Set<Object>;
+                friend class ArraySet<Object>;
         };
 
         static const int SPARE_CAPACITY = 16;
 
-        explicit Set(int size = 0): theSize {size}, theCapacity {size + SPARE_CAPACITY}
+        explicit ArraySet(int size = 0): theSize {size}, theCapacity {size + SPARE_CAPACITY}
         {
             objects = new Object[theCapacity];
         }
 
-        Set(const Set & rhs): 
+        ArraySet(const ArraySet & rhs): 
             theSize {rhs.theSize}, theCapacity {rhs.theCapacity}, objects {nullptr}
         {
             objects = new Object[theCapacity];
@@ -294,7 +301,7 @@ class Set
             }
         }
 
-        Set(Set && rhs): 
+        ArraySet(ArraySet && rhs): 
             theSize {rhs.theSize}, theCapacity {rhs.theCapacity}, objects {std::move(rhs.objects)}
         {
             rhs.objects = nullptr;
@@ -302,22 +309,22 @@ class Set
             rhs.theCapacity = 0;
         }
 
-        ~Set()
+        ~ArraySet()
         {
             delete[] objects;
         }
 
-        Set & operator=(const Set & rhs)
+        ArraySet & operator=(const ArraySet & rhs)
         {
             // In the case where both Sets have the same size, which can be tested for, it can be 
             // more efficient to simply copy each element one by one using Object’s operator=
 
-            Set *copy = rhs;
+            ArraySet *copy = rhs;
             std::swap(*this, copy);
             return *this;
         }
 
-        Set & operator=(Set && rhs)
+        ArraySet & operator=(ArraySet && rhs)
         {
             std::swap(theSize, rhs.theSize);
             std::swap(theCapacity, rhs.theCapacity);

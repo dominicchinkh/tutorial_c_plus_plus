@@ -1,56 +1,62 @@
 #include <iostream>
 
 // #include "src/book/data-structures-and-algorithm-analysis/chapter3/vector.h"
-#include "src/book/data-structures-and-algorithm-analysis/chapter4/set.h"
+#include "src/book/data-structures-and-algorithm-analysis/chapter4/binary-search-tree-set.h"
 
 using namespace std;
 
 int main(int argc, char *argv[]) 
 {
-    Set<int> a(3);
-    a[0] = 34;
-    a[1] = 56;
-    a[2] = 98;
+    BinarySearchTreeSet<int> a;
 
-    Set<int> b(a);
-    Set<int> c = a;
+    std::cout << "Binary search tree is " << (a.empty()? "empty" : "not empty") << std::endl;
 
-    cout << "b: " << b[0] << ' ' << b[1] << ' ' << b[2] << endl;
-    cout << "c: " << c[0] << ' ' << c[1] << ' ' << c[2] << endl;
+    a.insert(4);
+    a.insert(2);
+    a.insert(6);
+    a.insert(7);
+    a.insert(1);
 
-    cout << "Current size: " << a.size() << endl;
-    cout << "Current capacity: " << a.capacity() << endl;
+    std::cout << "After insert, binary search tree is " << (a.empty()? "empty" : "not empty") << std::endl;
 
-    a.insert(47);
-    cout << "New element at index " << (a.size() - 1) << ": "  << a[a.size() - 1] << endl;
+    a.printTree(); // expect 1, 2, 4, 6, 7
 
-    a.print();
+    if (auto minVal = a.findMin()) {
+        std::cout << "The minimum value is: " << *minVal << std::endl;
+    } else {
+        std::cout << "The structure is empty, no minimum found." << std::endl;
+    }
 
-    a.erase(56);
-    cout << "a new size after erase: " << a.size() << endl;
+    if (auto maxVal = a.findMax()) {
+        std::cout << "The maximum value is: " << *maxVal << std::endl;
+    } else {
+        std::cout << "The structure is empty, no maximum found." << std::endl;
+    }
 
-    a.print();
+    a.remove(6);
 
-    a.reserve(20);
+    a.printTree(); // expect 1, 2, 4, 7
 
-    cout << "New size after reserve: " << a.size() << endl;
-    cout << "New capacity after reserve: " << a.capacity() << endl;
+    auto itr = a.begin();
 
-    Set<int>::iterator itr = a.begin();
+    int i = 0;
 
     cout << "a elements: " << endl;
-    for (Set<int>::iterator itr = a.begin(); itr != a.end(); ++itr) {
+    for (auto itr = a.begin(); itr != a.end(); ++itr) {
         cout << *(itr) << endl;
+
+        if(++i > 5) {
+            break;
+        }
     }
 
-    a.print();
+    BinarySearchTreeSet<int> b{a};
 
-    auto result = a.find(47);
-    if (result) {
-        // Use the dereference operator (*) on the optional to get the iterator,
-        // then dereference the iterator to get the value.
-        cout << **(result) << endl;
-    }
+    cout << "The value of `b`: ";
+    b.printTree(); // expect 1, 2, 4, 7
     
+    a.makeEmpty();
+    std::cout << "After `makeEmpty`, Binary search tree is " << (a.empty()? "empty" : "not empty") << std::endl;
+
     return 0;
 }
