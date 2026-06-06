@@ -19,6 +19,20 @@
  *  
  *      std::cout << "After insert, binary search tree is " << (a.empty()? "empty" : "not empty") << std::endl;
  *  
+ *      if (a.contains(6)) {
+ *          std::cout << "`a` contains 6" << std::endl;
+ *      }
+ *      else {
+ *          std::cout << "`a` does not contains 6" << std::endl;
+ *      }
+ *   
+ *      if (a.contains(16)) {
+ *          std::cout << "`a` contains 16" << std::endl;
+ *      }
+ *      else {
+ *          std::cout << "`a` does not contains 16" << std::endl;
+ *      }
+ * 
  *      a.printTree(); // expect 1, 2, 4, 6, 7
  *  
  *      if (auto minVal = a.findMin()) {
@@ -76,7 +90,7 @@ class BinarySearchTreeSet
         {
             public:
                 // Add these lines so std::find works:
-                using iterator_category = std::random_access_iterator_tag;
+                using iterator_category = std::bidirectional_iterator_tag;
                 using value_type        = Comparable;
                 using difference_type   = std::ptrdiff_t;
                 using pointer           = const Comparable*;
@@ -300,23 +314,22 @@ class BinarySearchTreeSet
 
         BinarySearchTreeSet(): root {nullptr} 
         {
-            root = new BinaryNode{nullptr, nullptr, nullptr};
+            endNode = new BinaryNode{nullptr, nullptr, nullptr};
         }
 
         // In C++, a copy constructor has a strict, language-defined signature. It must take its argument 
         // by reference
         BinarySearchTreeSet(const BinarySearchTreeSet & rhs): root {nullptr}
         {
+            endNode = new BinaryNode{nullptr, nullptr, nullptr};
             root = clone(rhs.root, nullptr);
-
-            BinaryNode * maxNode = findMax(root);
-            endNode = new BinaryNode{nullptr, nullptr, maxNode};
-            maxNode->right = endNode;
+            updateEndNodeLink();
         }
 
         ~BinarySearchTreeSet()
         {
             makeEmpty();
+            delete endNode;
         }
 
         std::optional<Comparable> findMin() const
@@ -353,22 +366,30 @@ class BinarySearchTreeSet
 
         void makeEmpty()
         {
+            unlinkEndNode();
             makeEmpty(root);
+            updateEndNodeLink();
         }
 
         void insert(const Comparable & x)
         {
+            unlinkEndNode();
             insert(x, root, nullptr);
+            updateEndNodeLink();
         }
 
         void insert(Comparable && x)
         {
+            unlinkEndNode();
             insert(std::move(x), root, nullptr);
+            updateEndNodeLink();
         }
 
         void remove(const Comparable & x)
         {
+            unlinkEndNode();
             remove(x, root);
+            updateEndNodeLink();
         }
 
         iterator begin()
@@ -424,35 +445,36 @@ class BinarySearchTreeSet
         BinaryNode * root;
         BinaryNode * endNode;
 
+        void unlinkEndNode()
+        {
+            if (endNode && endNode->parent) {
+                endNode->parent->right = nullptr;
+                endNode->parent = nullptr;
+            }
+        }
+
+        void updateEndNodeLink()
+        {
+            if (root == nullptr) {
+                endNode->parent = nullptr;
+                return;
+            }
+
+            BinaryNode * maxNode = findMax(root);
+            maxNode->right = endNode;
+            endNode->parent = maxNode;
+        }
+
         void insert(const Comparable & x, BinaryNode * & t, BinaryNode * pt)
         {
             if (t == nullptr) {
                 t = new BinaryNode{x, nullptr, nullptr, pt};
             }
-            else {
-                if (t->element) {
-                    if (x < *(t->element)) {
-                        insert(std::move(x), t->left, t);
-                    }
-                    else if (x > *(t->element)) {
-                        insert(std::move(x), t->right, t);
-                    }
-                    else {
-                        // Duplicate - do nothing
-                    }
-                }
-                else {
-                    // t is currently the endNode sentinel (its element is std::nullopt)
-                    
-                    // Transform the current endNode into a normal data node
-                    t->element = std::move(x);
-                    
-                    // Allocate a new empty endNode sentinel as its right child
-                    t->right = new BinaryNode{nullptr, nullptr, t}; 
-                    
-                    // Update the class-wide endNode tracker
-                    endNode = t->right;
-                }
+            else if (x < *(t->element)) {
+                insert(std::move(x), t->left, t);
+            }
+            else if (x > *(t->element)) {
+                insert(std::move(x), t->right, t);
             }
         }
 
@@ -461,30 +483,11 @@ class BinarySearchTreeSet
             if (t == nullptr) {
                 t = new BinaryNode{std::move(x), nullptr, nullptr, pt};
             }
-            else {
-                if (t->element) {
-                    if (x < *(t->element)) {
-                        insert(std::move(x), t->left, t);
-                    }
-                    else if (x > *(t->element)) {
-                        insert(std::move(x), t->right, t);
-                    }
-                    else {
-                        // Duplicate - do nothing
-                    }
-                }
-                else {
-                    // t is currently the endNode sentinel (its element is std::nullopt)
-                    
-                    // Transform the current endNode into a normal data node
-                    t->element = std::move(x);
-                    
-                    // Allocate a new empty endNode sentinel as its right child
-                    t->right = new BinaryNode{nullptr, nullptr, t}; 
-                    
-                    // Update the class-wide endNode tracker
-                    endNode = t->right;
-                }
+            else if (x < *(t->element)) {
+                insert(std::move(x), t->left, t);
+            }
+            else if (x > *(t->element)) {
+                insert(std::move(x), t->right, t);
             }
         }
 
@@ -494,44 +497,31 @@ class BinarySearchTreeSet
                 return;
             }
             
-            if (t->element) {
-                if (x < *(t->element)) {
-                    remove(x, t->left);
-                }
-                else if (x > *(t->element)) {
-                    remove(x, t->right);
-                }
-                else if (t->left != nullptr && t->right != nullptr && t->right != end_ptr()) {
-
-                    // Replace the data of this node with the smallest data of the right subtree
-                    t->element = findMin(t->right)->element;
-                    remove(*(t->element), t->right);
-                }
-                else {
-                    // 1. If the node is a leaf, it can be deleted immediately
-                    // 2. If the node has one child, the node can be deleted after its parent adjusts a link to bypass the node
-
-                    BinaryNode * oldNode = t;
-                    t = (t->left != nullptr)? t->left: t->right;
-                    delete oldNode;
-                }
-            }
-        }
-
-        std::optional<BinaryNode> find(const Comparable * x, BinaryNode * t) const
-        {
-            if (t == nullptr || t == end_ptr()) {
-                return std::nullopt;
-            }
-
             if (x < *(t->element)) {
-                return find(x, t->left);
+                remove(x, t->left);
             }
-            else if(x > *(t->element)) {
-                return find(x, t->right);
+            else if (x > *(t->element)) {
+                remove(x, t->right);
+            }
+            else if (t->left != nullptr && t->right != nullptr && t->right != end_ptr()) {
+
+                // Replace the data of this node with the smallest data of the right subtree
+                t->element = findMin(t->right)->element;
+                remove(*(t->element), t->right);
             }
             else {
-                return t;
+                // 1. If the node is a leaf, it can be deleted immediately
+                // 2. If the node has one child, the node can be deleted after its parent adjusts a link to bypass the node
+
+                BinaryNode * oldNode = t;
+
+                t = (t->left != nullptr)? t->left: t->right;
+
+                if (t != nullptr) {
+                    t->parent = oldNode->parent;
+                }
+
+                delete oldNode;
             }
         }
 
@@ -569,20 +559,22 @@ class BinarySearchTreeSet
 
             if (t->element) {
                 if (x < *(t->element)) {
-                    return contains(t->left);
+                    return contains(x, t->left);
                 }
                 else if (x > *(t->element)) {
-                    return contains(t->right);
+                    return contains(x, t->right);
                 }
                 else {
                     return true;
                 }
             }
+
+            return false;
         }
 
         void makeEmpty(BinaryNode * & t)
         {
-            if (t != nullptr) {
+            if (t != nullptr && t != endNode) {
                 makeEmpty(t->left);
                 makeEmpty(t->right);
                 delete t;
@@ -604,15 +596,15 @@ class BinarySearchTreeSet
             if (t == nullptr) {
                 return nullptr;
             }
-            else {
-                BinaryNode* n = (t->element)? 
-                    new BinaryNode(*(t->element), nullptr, nullptr, pt):
-                    new BinaryNode(nullptr, nullptr, pt);
 
+            if (t->element) {
+                BinaryNode* n = new BinaryNode(*(t->element), nullptr, nullptr, pt);
                 n->left  = clone(t->left, n);
                 n->right = clone(t->right, n);
                 return n;
             }
+
+            return nullptr;
         }
 
         BinaryNode * begin_ptr() const
@@ -662,6 +654,10 @@ class BinarySearchTreeSet
 
         BinaryNode * prev(const BinaryNode * cur) const
         {
+            if (cur == endNode) {
+                return findMax(root);
+            }
+
             if (cur->left != nullptr) {
                 return findMax(cur->left);
             }

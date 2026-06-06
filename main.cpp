@@ -19,6 +19,20 @@ int main(int argc, char *argv[])
 
     std::cout << "After insert, binary search tree is " << (a.empty()? "empty" : "not empty") << std::endl;
 
+    if (a.contains(6)) {
+        std::cout << "`a` contains 6" << std::endl;
+    }
+    else {
+        std::cout << "`a` does not contains 6" << std::endl;
+    }
+
+    if (a.contains(16)) {
+        std::cout << "`a` contains 16" << std::endl;
+    }
+    else {
+        std::cout << "`a` does not contains 16" << std::endl;
+    }
+
     a.printTree(); // expect 1, 2, 4, 6, 7
 
     if (auto minVal = a.findMin()) {
