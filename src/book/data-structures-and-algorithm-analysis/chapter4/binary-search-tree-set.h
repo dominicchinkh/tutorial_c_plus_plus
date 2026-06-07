@@ -314,14 +314,14 @@ class BinarySearchTreeSet
 
         BinarySearchTreeSet(): root {nullptr} 
         {
-            endNode = new BinaryNode{nullptr, nullptr, nullptr};
+            endNode = new BinaryNode{};
         }
 
         // In C++, a copy constructor has a strict, language-defined signature. It must take its argument 
         // by reference
         BinarySearchTreeSet(const BinarySearchTreeSet & rhs): root {nullptr}
         {
-            endNode = new BinaryNode{nullptr, nullptr, nullptr};
+            endNode = new BinaryNode{};
             root = clone(rhs.root, nullptr);
             updateEndNodeLink();
         }
@@ -426,6 +426,11 @@ class BinarySearchTreeSet
             BinaryNode *right;
             BinaryNode *parent;
 
+            BinaryNode():
+                element {std::nullopt}, left {nullptr}, right {nullptr}, parent {nullptr}
+            {
+            }
+
             BinaryNode(const Comparable & el, BinaryNode * lt, BinaryNode * rt, BinaryNode * pt):
                 element {el}, left {lt}, right {rt}, parent {pt} 
             {
@@ -433,11 +438,6 @@ class BinarySearchTreeSet
 
             BinaryNode(Comparable && el, BinaryNode * lt, BinaryNode * rt, BinaryNode * pt):
                 element {std::move(el)}, left {lt}, right {rt}, parent {pt}
-            {
-            }
-
-            BinaryNode(BinaryNode * lt, BinaryNode * rt, BinaryNode* pt):
-                element {std::nullopt}, left {lt}, right {rt}, parent {pt}
             {
             }
         };
@@ -471,10 +471,10 @@ class BinarySearchTreeSet
                 t = new BinaryNode{x, nullptr, nullptr, pt};
             }
             else if (x < *(t->element)) {
-                insert(std::move(x), t->left, t);
+                insert(x, t->left, t);
             }
             else if (x > *(t->element)) {
-                insert(std::move(x), t->right, t);
+                insert(x, t->right, t);
             }
         }
 
@@ -574,7 +574,7 @@ class BinarySearchTreeSet
 
         void makeEmpty(BinaryNode * & t)
         {
-            if (t != nullptr && t != endNode) {
+            if (t != nullptr && t != end_ptr()) {
                 makeEmpty(t->left);
                 makeEmpty(t->right);
                 delete t;
@@ -654,7 +654,7 @@ class BinarySearchTreeSet
 
         BinaryNode * prev(const BinaryNode * cur) const
         {
-            if (cur == endNode) {
+            if (cur == end_ptr()) {
                 return findMax(root);
             }
 
