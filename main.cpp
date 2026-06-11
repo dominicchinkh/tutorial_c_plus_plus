@@ -1,76 +1,24 @@
 #include <iostream>
 
-// #include "src/book/data-structures-and-algorithm-analysis/chapter3/vector.h"
-#include "src/book/data-structures-and-algorithm-analysis/chapter4/binary-search-tree-set.h"
+#include "src/book/data-structures-and-algorithm-analysis/chapter5/probing-hash-table.h"
 
 using namespace std;
 
 int main(int argc, char *argv[]) 
 {
-    BinarySearchTreeSet<int> a;
+    ProbingHashTable<int> t;
 
-    std::cout << "Binary search tree is " << (a.empty()? "empty" : "not empty") << std::endl;
+    t.insert(47);
+    t.insert(13);
+    t.insert(81);
+    t.insert(95);
+    t.insert(42);
 
-    a.insert(4);
-    a.insert(2);
-    a.insert(6);
-    a.insert(7);
-    a.insert(1);
+    std::cout << "Contain 81? " << (t.contains(81)? "YES": "NO") << std::endl;
+    std::cout << "Current size: " << t.size() << std::endl;
 
-    std::cout << "After insert, binary search tree is " << (a.empty()? "empty" : "not empty") << std::endl;
+    t.remove(81);
 
-    if (a.contains(6)) {
-        std::cout << "`a` contains 6" << std::endl;
-    }
-    else {
-        std::cout << "`a` does not contains 6" << std::endl;
-    }
-
-    if (a.contains(16)) {
-        std::cout << "`a` contains 16" << std::endl;
-    }
-    else {
-        std::cout << "`a` does not contains 16" << std::endl;
-    }
-
-    a.printTree(); // expect 1, 2, 4, 6, 7
-
-    if (auto minVal = a.findMin()) {
-        std::cout << "The minimum value is: " << *minVal << std::endl;
-    } else {
-        std::cout << "The structure is empty, no minimum found." << std::endl;
-    }
-
-    if (auto maxVal = a.findMax()) {
-        std::cout << "The maximum value is: " << *maxVal << std::endl;
-    } else {
-        std::cout << "The structure is empty, no maximum found." << std::endl;
-    }
-
-    a.remove(6);
-
-    a.printTree(); // expect 1, 2, 4, 7
-
-    auto itr = a.begin();
-
-    int i = 0;
-
-    cout << "a elements: " << endl;
-    for (auto itr = a.begin(); itr != a.end(); ++itr) {
-        cout << *(itr) << endl;
-
-        if(++i > 5) {
-            break;
-        }
-    }
-
-    BinarySearchTreeSet<int> b{a};
-
-    cout << "The value of `b`: ";
-    b.printTree(); // expect 1, 2, 4, 7
-    
-    a.makeEmpty();
-    std::cout << "After `makeEmpty`, Binary search tree is " << (a.empty()? "empty" : "not empty") << std::endl;
-
-    return 0;
+    std::cout << "Contain 81? " << (t.contains(81)? "YES": "NO") << std::endl;
+    std::cout << "Current size: " << t.size() << std::endl;
 }

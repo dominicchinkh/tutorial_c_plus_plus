@@ -277,7 +277,7 @@ class BinarySearchTree
             }
         }
 
-        BinaryNode * clone(BinaryNode *t) const
+        BinaryNode * clone(BinaryNode *t)
         {
             if (t == nullptr) {
                 return nullptr;
