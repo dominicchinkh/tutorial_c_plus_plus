@@ -1,5 +1,4 @@
-#ifndef BINARY_SEARCH_TREE_H
-#define BINARY_SEARCH_TREE_H
+#pragma once
 
 #include <iostream>
 #include <optional>
@@ -287,5 +286,3 @@ class BinarySearchTree
             }
         }
 };
-
-#endif

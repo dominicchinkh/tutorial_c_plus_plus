@@ -1,5 +1,4 @@
-#ifndef ARRAY_STACK_H
-#define ARRAY_STACK_H
+#pragma once
 
 #include <stdexcept>
 #include <algorithm>
@@ -120,5 +119,3 @@ class ArrayStack
             theArraySize = newSize;
         }
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef SEPARATE_CHAINING_HASH_TABLE_H
-#define SEPARATE_CHAINING_HASH_TABLE_H
+#pragma once
 
 #include <algorithm>
 #include <list>
@@ -142,5 +141,3 @@ class SeparateChainingHashTable
             return hf(x) % theLists.size();
         }
 };
-
-#endif

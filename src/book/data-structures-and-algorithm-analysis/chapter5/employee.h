@@ -1,5 +1,4 @@
-#ifndef EMPLOYEE_H
-#define EMPLOYEE_H
+#pragma once
 
 #include<string>
 
@@ -27,5 +26,3 @@ class Employee
         std::string name;
         double salary;
 };
-
-#endif

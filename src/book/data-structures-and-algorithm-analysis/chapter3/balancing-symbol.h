@@ -1,5 +1,4 @@
-#ifndef BALANCING_SYMBOL_H
-#define BALANCING_SYMBOL_H
+#pragma once
 
 /*
  * Compilers check your programs for syntax errors, but frequently a lack of one symbol (such 
@@ -137,5 +136,3 @@ class BalancingSymbol
             }
         }
 };
-
-#endif

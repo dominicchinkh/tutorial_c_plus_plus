@@ -113,7 +113,7 @@ if(${CMAKE_SYSTEM} MATCHES "Darwin")
 endif()
 
 if(${CMAKE_SYSTEM} MATCHES "Linux")
-    SET(CMAKE_CXX_FLAGS "--std=c++11 ${CMAKE_CXX_FLAGS}")
+    SET(CMAKE_CXX_FLAGS "--std=c++17 ${CMAKE_CXX_FLAGS}")
     set_target_properties(
         ${PROJECT}
         PROPERTIES
@@ -123,7 +123,7 @@ if(${CMAKE_SYSTEM} MATCHES "Linux")
                 -Wl,-rpath,.
     )
 elseif(${CMAKE_SYSTEM} MATCHES "Darwin")
-    SET(CMAKE_CXX_FLAGS "--stdlib=libc++ --std=c++11 ${CMAKE_CXX_FLAGS}")
+    SET(CMAKE_CXX_FLAGS "--stdlib=libc++ --std=c++17 ${CMAKE_CXX_FLAGS}")
     set_target_properties(
         ${PROJECT}
         PROPERTIES

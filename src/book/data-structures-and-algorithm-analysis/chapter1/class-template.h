@@ -1,5 +1,4 @@
-#ifndef CLASS_TEMPLATE_H
-#define CLASS_TEMPLATE_H
+#pragma once
 
 /*
  *  A class for finding storing a value
@@ -34,5 +33,3 @@ class MemoryCell
     private:
         Object value;
 };
-
-#endif

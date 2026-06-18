@@ -1,5 +1,4 @@
-#ifndef LIST_H
-#define LIST_H
+#pragma once
 
 /*
  *  int main(int argc, char *argv[]) 
@@ -464,5 +463,3 @@ class List
             tail->prev = head;
         }
 };
-
-#endif

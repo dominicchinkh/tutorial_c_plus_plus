@@ -1,5 +1,4 @@
-#ifndef FUNCTION_OBJECT_H
-#define FUNCTION_OBJECT_H
+#pragma once
 
 #include <functional>
 #include <string>
@@ -49,5 +48,3 @@ class CaseInsensitiveCompare
             return strcasecmp(lhs.c_str(), rhs.c_str()) < 0;
         }
 };
-
-#endif

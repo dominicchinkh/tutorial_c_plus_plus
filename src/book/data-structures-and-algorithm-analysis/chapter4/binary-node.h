@@ -1,5 +1,4 @@
-#ifndef BINARY_NODE_H
-#define BINARY_NODE_H
+#pragma once
 
 template <typename Object>
 struct BinaryNode
@@ -8,5 +7,3 @@ struct BinaryNode
     BinaryNode *left;
     BinaryNode *right;
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef TOKEN_PASTING_OPERATOR_H
-#define TOKEN_PASTING_OPERATOR_H
+#pragma once
 
 #include <iostream>
 #include <string>
@@ -49,6 +48,3 @@ GENERATE_MATH_WRAPPER(add, +)
 
 // Generates: int compute_multiply(int a, int b) { ... }
 GENERATE_MATH_WRAPPER(multiply, *)
-
-
-#endif

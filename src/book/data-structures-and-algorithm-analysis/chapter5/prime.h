@@ -1,5 +1,4 @@
-#ifndef PRIME_H
-#define PRIME_H
+#pragma once
 
 // Helper function to check if a number is prime
 bool isPrime(int num)
@@ -75,5 +74,3 @@ int nextPrime(int num)
 
     return prime;
 }
-
-#endif

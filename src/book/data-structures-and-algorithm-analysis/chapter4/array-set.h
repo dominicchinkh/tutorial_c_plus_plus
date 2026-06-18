@@ -1,5 +1,4 @@
-#ifndef ARRAY_SET_H
-#define ARRAY_SET_H
+#pragma once
 
 #include <algorithm>
 #include <iostream>
@@ -528,5 +527,3 @@ class ArraySet
             return &objects[theSize];
         }
 };
-
-#endif

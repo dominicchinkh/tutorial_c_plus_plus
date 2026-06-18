@@ -1,5 +1,4 @@
-#ifndef CONTAINER_H
-#define CONTAINER_H
+#pragma once
 
 #include <iostream>
 
@@ -97,5 +96,3 @@ void print(const Container & c, ostream & out = cout)
         out << " ]" << endl;
     }
 }
-
-#endif

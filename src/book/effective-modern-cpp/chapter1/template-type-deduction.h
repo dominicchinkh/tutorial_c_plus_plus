@@ -1,5 +1,4 @@
-#ifndef TEMPLATE_TYPE_DEDUCTION_H
-#define TEMPLATE_TYPE_DEDUCTION_H
+#pragma once
 
 // template<typename T>
 // void f(ParamType param);
@@ -43,5 +42,3 @@ void test2()
     const int& rx = x;
     f2(rx);
 }
-
-#endif

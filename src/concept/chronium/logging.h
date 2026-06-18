@@ -1,5 +1,4 @@
-#ifndef LOGGING_H
-#define LOGGING_H
+#pragma once
 
 /*--------------------------------------------------------------------------------------------
  * This header file implements a highly efficient, Chromium-style stream-based logging system
@@ -335,5 +334,3 @@ bool ShouldCreateLogMessage(int severity)
 #define LOG_IS_ON(severity) (LOGGING_##severity == LOGGING_FATAL || ShouldCreateLogMessage(LOGGING_##severity))
 
 #define LOG(severity) LAZY_STREAM(LOG_STREAM(severity), LOG_IS_ON(severity))
-
-#endif

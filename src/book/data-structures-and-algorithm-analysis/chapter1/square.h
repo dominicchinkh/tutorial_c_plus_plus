@@ -1,5 +1,4 @@
-#ifndef SQUARE_H
-#define SQUARE_H
+#pragma once
 
 #include <iostream>
 
@@ -25,5 +24,3 @@ class Square
     private:
         double side;
 };
-
-#endif

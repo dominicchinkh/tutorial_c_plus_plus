@@ -1,5 +1,4 @@
-#ifndef INTCELL_H
-#define INTCELL
+#pragma once
 
 using namespace std;
 
@@ -180,5 +179,3 @@ class IntCell
     private:
         int* value;
 };
-
-#endif

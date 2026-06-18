@@ -1,5 +1,4 @@
-#ifndef BINARY_SEARCH_TREE_SET_H
-#define BINARY_SEARCH_TREE_SET_H
+#pragma once
 
 #include <algorithm>
 #include <optional>
@@ -676,5 +675,3 @@ class BinarySearchTreeSet
             return const_cast<BinaryNode*>(p);
         }
 };
-
-#endif

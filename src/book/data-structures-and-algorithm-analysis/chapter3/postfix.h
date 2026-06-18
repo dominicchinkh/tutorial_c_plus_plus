@@ -1,5 +1,4 @@
-#ifndef POSTFIX_H
-#define POSTFIX_H
+#pragma once
 
 /*
  * Postfix notation, or Reverse Polish Notation (RPN), is a mathematical method where operators 
@@ -154,5 +153,3 @@ class Postfix
             return theArray.pop();
         }
 };
-
-#endif

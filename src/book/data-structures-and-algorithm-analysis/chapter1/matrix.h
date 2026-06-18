@@ -1,5 +1,4 @@
-#ifndef MATRIX_H
-#define MATRIX_H
+#pragma once
 
 #include <vector>
 
@@ -58,4 +57,3 @@ class Matrix
         vector<vector<Object>> array;
 };
 
-#endif

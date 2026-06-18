@@ -1,5 +1,4 @@
-#ifndef VECTOR_STACK_H
-#define VECTOR_STACK_H
+#pragma once
 
 #include <stdexcept>
 #include <vector>
@@ -69,5 +68,3 @@ class VectorStack
     private:
         std::vector<Object> theArray;
 };
-
-#endif

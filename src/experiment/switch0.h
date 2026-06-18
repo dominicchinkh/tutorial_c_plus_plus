@@ -1,5 +1,4 @@
-#ifndef SWITCH_0_H
-#define SWITCH_0_H
+#pragma once
 
 #include <iostream>
 #include <string>
@@ -34,5 +33,3 @@ struct MockLogMessage {
 
 // Note: The double 'for' loop at the end is a way to execute msg.Panic() 
 // and immediately halt/exit the macro execution block.
-
-#endif

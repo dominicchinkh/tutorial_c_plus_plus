@@ -1,5 +1,4 @@
-#ifndef PROBING_HASH_TABLE_H
-#define PROBING_HASH_TABLE_H
+#pragma once
 
 #include <vector>
 
@@ -173,5 +172,3 @@ class ProbingHashTable
             return hf(x) % array.size();
         }
 };
-
-#endif

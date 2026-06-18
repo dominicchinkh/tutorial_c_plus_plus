@@ -1,5 +1,4 @@
-#ifndef LINKED_LIST_STACK_H
-#define LINKED_LIST_STACK_H
+#pragma once
 
 #include <stdexcept>
 
@@ -183,5 +182,3 @@ class LinkedListStack
             tail->prev = head;
         }
 };
-
-#endif

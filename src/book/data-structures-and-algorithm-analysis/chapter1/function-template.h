@@ -1,5 +1,4 @@
-#ifndef FUNCTION_TEMPLATE_H
-#define FUNCTION_TEMPLATE_H
+#pragma once
 
 #include <vector>
 
@@ -29,5 +28,3 @@ const Comparable & findMax(const vector<Comparable> & a)
 
     return a[maxIndex];
 }
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef EXPRESSION_H
-#define EXPRESSION_H
+#pragma once
 
 // For size_t
 #include <cstddef>
@@ -69,5 +68,3 @@ class Segment {
   Zone* zone_ = nullptr;
 };
 */
-
-#endif

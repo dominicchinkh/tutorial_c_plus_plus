@@ -1,5 +1,4 @@
-#ifndef TREE_NODE_H
-#define TREE_NODE_H
+#pragma once
 
 template <typename Object>
 struct TreeNode
@@ -9,5 +8,3 @@ struct TreeNode
     TreeNode *firstChild;
     TreeNode *nextSibling;
 };
-
-#endif
