@@ -1,24 +1,21 @@
 #include <iostream>
 
-#include "src/book/data-structures-and-algorithm-analysis/chapter5/probing-hash-table.h"
+#include "src/book/data-structures-and-algorithm-analysis/chapter5/cuckoo-hash-table.h"
+#include "src/book/data-structures-and-algorithm-analysis/chapter5/hash-family.h"
 
 using namespace std;
 
 int main(int argc, char *argv[]) 
 {
-    ProbingHashTable<int> t;
+    CuckooHashTable<string, StringHashFamily<7>> t;
 
-    t.insert(47);
-    t.insert(13);
-    t.insert(81);
-    t.insert(95);
-    t.insert(42);
+    t.insert("window");
+    t.insert("linux");
+    t.insert("macos");
 
-    std::cout << "Contain 81? " << (t.contains(81)? "YES": "NO") << std::endl;
-    std::cout << "Current size: " << t.size() << std::endl;
+    std::cout << "Contain 'window' (before remove)? " << (t.contains("window")? "YES" : "NO") << std::endl;
+    t.remove("window");
+    std::cout << "Contain 'window' (after remove)? " << (t.contains("window")? "YES" : "NO") << std::endl;
 
-    t.remove(81);
-
-    std::cout << "Contain 81? " << (t.contains(81)? "YES": "NO") << std::endl;
-    std::cout << "Current size: " << t.size() << std::endl;
+    return 0;
 }
